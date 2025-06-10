@@ -1,10 +1,10 @@
-```bash
-git clone <repository-url>
-cd analyzer_project
-docker-compose up -d
-```
+Веб-приложение FeedbackLab предназначено для анализа отзывов с маркетплейсов Ozon и Wildberries.
 
-```bash
-docker-compose -f docker-compose.prod.yml up -d
-```
+## Технологии
+
+- **Backend**: Python, FastAPI, SQLAlchemy, Alembic
+- **Frontend**: React, TypeScript
+- **База данных**: PostgreSQL
+- **Контейнеризация**: Docker
+- **Анализ данных**: XLM-Roberta
 
