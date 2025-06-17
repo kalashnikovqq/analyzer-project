@@ -1,0 +1,22 @@
+FROM python:3.9-slim
+
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+ENV PYTHONUNBUFFERED=1
+
+COPY backend/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY backend/ /app/
+
+ENV USE_REMOTE_WEBDRIVER=True
+ENV REMOTE_WEBDRIVER_URL=http://selenium:4444/wd/hub
+
+EXPOSE 8000
+
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"] 

@@ -1,0 +1,74 @@
+services:
+  db:
+    image: postgres:15
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: analyzer_db
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app_network
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    volumes:
+      - ./backend:/app
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://postgres:postgres@db/analyzer_db
+      - SECRET_KEY=supersecretkey123456789
+      - REMOTE_WEBDRIVER_URL=http://selenium:4444/wd/hub
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - selenium
+    networks:
+      - app_network
+    deploy:
+      resources:
+        limits:
+          memory: 6G
+        reservations:
+          memory: 4G
+    shm_size: "1g"
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - app_network
+
+  selenium:
+    image: selenium/standalone-chromium:latest
+    ports:
+      - "4444:4444"
+      - "7900:7900"  
+    environment:
+      - SE_VNC_NO_PASSWORD=1
+    volumes:
+      - /dev/shm:/dev/shm
+    networks:
+      - app_network
+    shm_size: "2g"
+
+volumes:
+  postgres_data:
+
+networks:
+  app_network:
+    driver: bridge

@@ -1,0 +1,42 @@
+{
+  "_name_or_path": "best_model",
+  "architectures": [
+    "XLMRobertaForTokenClassification"
+  ],
+  "attention_probs_dropout_prob": 0.1,
+  "bos_token_id": 0,
+  "classifier_dropout": null,
+  "eos_token_id": 2,
+  "hidden_act": "gelu",
+  "hidden_dropout_prob": 0.1,
+  "hidden_size": 1024,
+  "id2label": {
+    "0": "B-NEG",
+    "1": "B-POS",
+    "2": "I-NEG",
+    "3": "I-POS",
+    "4": "O"
+  },
+  "initializer_range": 0.02,
+  "intermediate_size": 4096,
+  "label2id": {
+    "B-NEG": 0,
+    "B-POS": 1,
+    "I-NEG": 2,
+    "I-POS": 3,
+    "O": 4
+  },
+  "layer_norm_eps": 1e-05,
+  "max_position_embeddings": 514,
+  "model_type": "xlm-roberta",
+  "num_attention_heads": 16,
+  "num_hidden_layers": 24,
+  "output_past": true,
+  "pad_token_id": 1,
+  "position_embedding_type": "absolute",
+  "torch_dtype": "float32",
+  "transformers_version": "4.30.2",
+  "type_vocab_size": 1,
+  "use_cache": true,
+  "vocab_size": 250002
+}
